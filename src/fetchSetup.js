@@ -2,8 +2,8 @@ import { API_URL } from './config';
 
 const originalFetch = window.fetch;
 
-window.fetch = async function () {
-  let [resource, config] = arguments;
+window.fetch = async function (...args) {
+  let [resource, config] = args;
   
   // If the resource is a string and hits our API (either starts with /api or has API_URL/api)
   if (typeof resource === 'string' && (resource.startsWith('/api/') || resource.includes('/api/'))) {
@@ -19,5 +19,5 @@ window.fetch = async function () {
     config.credentials = 'include';
   }
   
-  return originalFetch.call(this, resource, config);
+  return originalFetch(resource, config);
 };
