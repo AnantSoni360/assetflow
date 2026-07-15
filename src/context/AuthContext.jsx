@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { API_URL } from '../../config';
 
 const AuthContext = createContext();
 
@@ -13,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/auth/me');
+        const res = await fetch('/api/auth/me');
         if (res.ok) {
           const data = await res.json();
           setUser({
@@ -35,7 +34,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     if (user && user.workspace && user.workspace !== 'SYSTEM') {
-      fetch(`${API_URL}/api/users')
+      fetch('/api/users')
         .then(res => res.json())
         .then(data => {
           if (data.users) {
@@ -57,7 +56,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (workspace, email, password) => {
     try {
-      const res = await fetch(`${API_URL}/api/auth/login', {
+      const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ workspace, email, password })
@@ -84,7 +83,7 @@ export const AuthProvider = ({ children }) => {
 
   const platformLogin = async (email, password) => {
     try {
-      const res = await fetch(`${API_URL}/api/platform/login', {
+      const res = await fetch('/api/platform/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -102,7 +101,7 @@ export const AuthProvider = ({ children }) => {
 
   const changePassword = async (currentPassword, newPassword) => {
     try {
-      const res = await fetch(`${API_URL}/api/auth/change-password', {
+      const res = await fetch('/api/auth/change-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ currentPassword, newPassword })
@@ -121,7 +120,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await fetch(`${API_URL}/api/auth/logout', { method: 'POST' });
+      await fetch('/api/auth/logout', { method: 'POST' });
     } catch (err) {
       console.error("Logout error", err);
     }
@@ -134,4 +133,5 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 

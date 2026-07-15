@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { API_URL } from '../../config';
 import { Link, useNavigate } from 'react-router-dom';
 import { Activity, ArrowLeft, Building, User, Lock, Mail } from 'lucide-react';
 import './Login.css';
@@ -34,7 +33,7 @@ const CreateWorkspace = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/workspaces', {
+      const res = await fetch('/api/workspaces', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -157,4 +156,5 @@ const CreateWorkspace = () => {
 };
 
 export default CreateWorkspace;
+
 

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../../config';
 import { Search, MoreVertical, Trash2, ShieldBan, ShieldCheck, AlertTriangle } from 'lucide-react';
 import './Platform.css';
 
@@ -13,7 +12,7 @@ const PlatformWorkspaces = () => {
 
   const fetchWorkspaces = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/platform/workspaces');
+      const res = await fetch('/api/platform/workspaces');
       if (res.ok) {
         const data = await res.json();
         setWorkspaces(data.workspaces);
@@ -40,7 +39,7 @@ const PlatformWorkspaces = () => {
     
     setDeleteLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/platform/workspaces/${workspaceToDelete.workspace_id}`, {
+      const res = await fetch(`/api/platform/workspaces/${workspaceToDelete.workspace_id}`, {
         method: 'DELETE'
       });
       if (res.ok) {
@@ -176,4 +175,5 @@ const PlatformWorkspaces = () => {
 };
 
 export default PlatformWorkspaces;
+
 

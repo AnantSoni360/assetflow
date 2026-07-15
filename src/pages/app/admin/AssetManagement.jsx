@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { API_URL } from '../../../../config';
 import { useData } from '../../../context/DataContext';
 import { useAuth } from '../../../context/AuthContext';
 import { useNotifications } from '../../../context/NotificationContext';
@@ -31,7 +30,7 @@ const AssetManagement = () => {
     }
     setSaving(true);
     try {
-      const res = await fetch(`${API_URL}/api/assets/${assigningAsset._id || assigningAsset.id}`, {
+      const res = await fetch(`/api/assets/${assigningAsset._id || assigningAsset.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ assigned_to_email: selectedUser })
@@ -53,7 +52,7 @@ const AssetManagement = () => {
   const handleUnassign = async (asset) => {
     if (!window.confirm(`Unassign "${asset.Asset_Name}" from ${asset.Assigned_To_Email}?`)) return;
     try {
-      const res = await fetch(`${API_URL}/api/assets/${asset._id || asset.id}`, {
+      const res = await fetch(`/api/assets/${asset._id || asset.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ assigned_to_email: null })
@@ -210,4 +209,5 @@ const AssetManagement = () => {
 };
 
 export default AssetManagement;
+
 

@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { API_URL } from '../../config';
 import { useSocket } from './SocketContext';
 
 const NotificationContext = createContext();
@@ -13,7 +12,7 @@ export const NotificationProvider = ({ children }) => {
   // Fetch persisted notifications from DB on mount
   const fetchNotifications = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/notifications');
+      const res = await fetch('/api/notifications');
       if (res.ok) {
         const data = await res.json();
         setNotifications(data.notifications.map(n => ({ ...n, read: n.read === true })));
@@ -50,7 +49,7 @@ export const NotificationProvider = ({ children }) => {
 
   const markAllAsRead = async () => {
     setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-    try { await fetch(`${API_URL}/api/notifications/read-all', { method: 'PATCH' }); } catch {}
+    try { await fetch('/api/notifications/read-all', { method: 'PATCH' }); } catch {}
   };
 
   const unreadCount = notifications.filter(n => !n.read).length;

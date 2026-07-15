@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../../config';
 import { useAuth } from '../../context/AuthContext';
 import { Shield, Key, Clock, Monitor, Smartphone, Globe, Eye, EyeOff } from 'lucide-react';
 import './Employee.css';
@@ -22,7 +21,7 @@ const SecurityProfile = () => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/auth/sessions');
+        const res = await fetch('/api/auth/sessions');
         if (res.ok) {
           const data = await res.json();
           setSessions(data.sessions);
@@ -202,4 +201,5 @@ const SecurityProfile = () => {
 };
 
 export default SecurityProfile;
+
 

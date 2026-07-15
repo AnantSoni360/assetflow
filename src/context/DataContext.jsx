@@ -1,5 +1,4 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { API_URL } from '../../config';
 import { useAuth } from './AuthContext';
 import { useSocket } from './SocketContext';
 
@@ -44,7 +43,7 @@ export const DataProvider = ({ children }) => {
   // ── Fetch functions ──────────────────────────────────────────
   const fetchTickets = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/tickets');
+      const res = await fetch('/api/tickets');
       if (res.ok) {
         const data = await res.json();
         setTickets((data.tickets || []).map(mapTicket));
@@ -61,7 +60,7 @@ export const DataProvider = ({ children }) => {
 
   const fetchAssets = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/assets');
+      const res = await fetch('/api/assets');
       if (res.ok) {
         const data = await res.json();
         setAssets((data.assets || []).map(mapAsset));
@@ -77,7 +76,7 @@ export const DataProvider = ({ children }) => {
 
   const fetchSpareParts = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/spare-parts');
+      const res = await fetch('/api/spare-parts');
       if (res.ok) {
         const data = await res.json();
         setSpareParts(data.parts || []);
@@ -87,7 +86,7 @@ export const DataProvider = ({ children }) => {
 
   const fetchInventory = useCallback(async () => {
     try {
-      const res = await fetch(`${API_URL}/api/inventory');
+      const res = await fetch('/api/inventory');
       if (res.ok) {
         const data = await res.json();
         setInventory(data.inventory || []);
@@ -176,7 +175,7 @@ export const DataProvider = ({ children }) => {
   // ── Actions ──────────────────────────────────────────────────
   const addTicket = async ({ Title, Description, Priority, Category, Asset_Name }) => {
     try {
-      const res = await fetch(`${API_URL}/api/tickets', {
+      const res = await fetch('/api/tickets', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: Title, description: Description, priority: Priority, category: Category, asset_name: Asset_Name || null }),
@@ -198,7 +197,7 @@ export const DataProvider = ({ children }) => {
     setTickets(prev => prev.map(t => (t.id === id || t._id === id) ? { ...t, ...updates } : t));
 
     try {
-      await fetch(`${API_URL}/api/tickets/${id}`, {
+      await fetch(`/api/tickets/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
@@ -208,7 +207,7 @@ export const DataProvider = ({ children }) => {
 
   const requestSparePart = async (ticketId, partName) => {
     try {
-      const res = await fetch(`${API_URL}/api/spare-parts', {
+      const res = await fetch('/api/spare-parts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ticket_id: ticketId, part_name: partName })
@@ -218,7 +217,7 @@ export const DataProvider = ({ children }) => {
   };
 
   const approveSparePartRequest = async (requestId) => {
-    await fetch(`${API_URL}/api/spare-parts/${requestId}`, {
+    await fetch(`/api/spare-parts/${requestId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: 'Approved' })
@@ -226,7 +225,7 @@ export const DataProvider = ({ children }) => {
   };
 
   const rejectSparePartRequest = async (requestId) => {
-    await fetch(`${API_URL}/api/spare-parts/${requestId}`, {
+    await fetch(`/api/spare-parts/${requestId}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status: 'Rejected' })
@@ -235,7 +234,7 @@ export const DataProvider = ({ children }) => {
 
   const addInventoryItem = async (data) => {
     try {
-      const res = await fetch(`${API_URL}/api/inventory', {
+      const res = await fetch('/api/inventory', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -247,7 +246,7 @@ export const DataProvider = ({ children }) => {
 
   const updateInventoryItem = async (id, data) => {
     try {
-      const res = await fetch(`${API_URL}/api/inventory/${id}`, {
+      const res = await fetch(`/api/inventory/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -259,7 +258,7 @@ export const DataProvider = ({ children }) => {
 
   const mergeTicket = async (id, parent_ticket_number) => {
     try {
-      const res = await fetch(`${API_URL}/api/tickets/${id}/merge`, {
+      const res = await fetch(`/api/tickets/${id}/merge`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ parent_ticket_number })
@@ -287,4 +286,5 @@ export const DataProvider = ({ children }) => {
     </DataContext.Provider>
   );
 };
+
 

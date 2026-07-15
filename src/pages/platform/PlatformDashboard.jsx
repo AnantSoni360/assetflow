@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { API_URL } from '../../../config';
 import { Building2, Users, Laptop, TicketCheck, TrendingUp, Activity } from 'lucide-react';
 import './Platform.css';
 
@@ -15,7 +14,7 @@ const PlatformDashboard = () => {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/platform/analytics');
+        const res = await fetch('/api/platform/analytics');
         if (res.ok) {
           const data = await res.json();
           setStats(data);
@@ -94,4 +93,5 @@ const PlatformDashboard = () => {
 };
 
 export default PlatformDashboard;
+
 
